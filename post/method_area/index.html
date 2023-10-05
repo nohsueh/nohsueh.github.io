@@ -10,7 +10,7 @@
     <link rel="stylesheet" href='https://nohsueh.github.io/css/light.css' />
     <link rel="stylesheet" href='https://nohsueh.github.io/css/dark.css' />
     <link rel="stylesheet" href='https://nohsueh.github.io/css/syntax.css' />
-    <title>方法区 - NOhsueh&#39;s blog</title>
+    <title>JVM 方法区 - NOhsueh&#39;s blog</title>
     
     <link rel="icon" type="image/x-icon" href='/images/github.png'>
     
@@ -18,7 +18,7 @@
 
     
     <meta name="description"
-  content="方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
+  content="JVM 方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
 这区域的内存回收目标主要是针对常量池的回收和对类型的卸载" />
 <meta name="keywords"
   content='blog, personal' />
@@ -27,9 +27,9 @@
 
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="方法区 - NOhsueh&#39;s blog" />
+<meta name="twitter:title" content="JVM 方法区 - NOhsueh&#39;s blog" />
 <meta name="twitter:description"
-  content="方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
+  content="JVM 方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
 这区域的内存回收目标主要是针对常量池的回收和对类型的卸载" />
 <meta name="twitter:site" content="https://nohsueh.github.io" />
 <meta name="twitter:creator" content="" />
@@ -38,12 +38,12 @@
 
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="方法区 - NOhsueh&#39;s blog">
+<meta property="og:title" content="JVM 方法区 - NOhsueh&#39;s blog">
 <meta property="og:description"
-  content="方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
+  content="JVM 方法区 方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。
 这区域的内存回收目标主要是针对常量池的回收和对类型的卸载" />
 <meta property="og:url" content="https://nohsueh.github.io/post/method_area/" />
-<meta property="og:site_name" content="方法区" />
+<meta property="og:site_name" content="JVM 方法区" />
 <meta property="og:image"
   content="https://nohsueh.github.io">
 <meta property="og:image:width" content="2048">
@@ -144,7 +144,7 @@
                   <span class="author">
                     <a href="https://nohsueh.github.io">NOhsueh</a></span><span
                     class="path-divider">/</span><strong class="css-truncate-target mr-1" style="max-width: 410px"><a
-                      href="https://nohsueh.github.io/post/method_area/">方法区</a></strong>
+                      href="https://nohsueh.github.io/post/method_area/">JVM 方法区</a></strong>
                 </h1>
                 <div class="note m-0">
                   Created <relative-time datetime="Thu, 05 Oct 2023 20:09:18 &#43;0800"
@@ -153,9 +153,9 @@
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Thu, 05 Oct 2023 20:11:14 &#43;0800"
+                  Modified <relative-time datetime="Thu, 05 Oct 2023 21:16:11 &#43;0800"
                     class="no-wrap">
-                    Thu, 05 Oct 2023 20:11:14 &#43;0800</relative-time>
+                    Thu, 05 Oct 2023 21:16:11 &#43;0800</relative-time>
                   
                 </div>
               </div>
@@ -185,7 +185,7 @@
                         </div>
                       </div>
                     </details-menu>
-                      111 Words
+                      112 Words
                     
 
                   </div>
@@ -197,7 +197,7 @@
 
 
               <div class="Box-body px-5 pb-5" style="z-index: 1">
-                <article class="markdown-body entry-content container-lg"><h1 id="方法区">方法区</h1>
+                <article class="markdown-body entry-content container-lg"><h1 id="jvm-方法区">JVM 方法区</h1>
 <p>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。</p>
 <p>这区域的内存回收目标主要是针对常量池的回收和对类型的卸载</p>
 </article>
