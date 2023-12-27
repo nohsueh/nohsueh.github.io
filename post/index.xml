@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>NOhsueh&#39;s blog</title>
-    <link>https://nohsueh.github.io/</link>
-    <description>Recent content on NOhsueh&#39;s blog</description>
+    <title>Posts on NOhsueh&#39;s blog</title>
+    <link>https://nohsueh.github.io/post/</link>
+    <description>Recent content in Posts on NOhsueh&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 27 Dec 2023 16:00:12 +0800</lastBuildDate>
-    <atom:link href="https://nohsueh.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://nohsueh.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>谓词下推：数据库查询优化</title>
       <link>https://nohsueh.github.io/post/2023/12/predicate_pushdown_-_database_query_optimization/</link>
       <pubDate>Wed, 27 Dec 2023 16:00:12 +0800</pubDate>
       <guid>https://nohsueh.github.io/post/2023/12/predicate_pushdown_-_database_query_optimization/</guid>
       <description>谓词下推：数据库查询优化。</description>
-    </item>
-    <item>
-      <title>README</title>
-      <link>https://nohsueh.github.io/readme/</link>
-      <pubDate>Thu, 05 Oct 2023 20:05:42 +0800</pubDate>
-      <guid>https://nohsueh.github.io/readme/</guid>
-      <description>ME.</description>
     </item>
   </channel>
 </rss>
