@@ -56,7 +56,7 @@
 </li>
 </ul>
 <h2 id="谓词下推的应用">谓词下推的应用</h2>
-<h3 id="mysql-索引条件下推优化">MySQL 索引条件下推优化</h3>
+<h3 id="1-mysql-索引条件下推优化">1. MySQL 索引条件下推优化</h3>
 <p><strong>索引条件下推</strong>（<em>ICP</em>）是 MySQL 使用索引减少回表查询的优化。</p>
 <h4 id="mysql-架构">MySQL 架构</h4>
 <p><img src="/img/mysql-architecture.png" alt="mysql-architecture"></p>
@@ -86,7 +86,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%Main Street%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em>，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
 <p>启用 <em>ICP</em> 后，MySQL 会在读全表前检查是否匹配 <code>lastname LIKE '%etrunia%'</code> 语句。这就避免了匹配条件 <code>zipcode='95054</code> 但不匹配条件 <code>lastname</code> 的回表查询。</p>
-<h3 id="非关系型数据库hadoopflink等待补充">非关系型数据库、Hadoop、Flink等待补充</h3>
+<h3 id="2-非关系型数据库hadoopflink等待补充">2. 非关系型数据库、Hadoop、Flink等待补充</h3>
+<p>&hellip;</p>
 <h2 id="总结">总结</h2>
 <p>总的来说，谓词下推是数据库查询优化的重要手段，它把条件过滤的步骤下推到数据源，减少网络 I/O，减少处理的数据量，从而提高查询性能。</p>
 <h2 id="参考">参考</h2>
