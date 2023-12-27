@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>数据库 on Nohsueh&#39;s Blog</title>
-    <link>https://nohsueh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
-    <description>Recent content in 数据库 on Nohsueh&#39;s Blog</description>
+    <title>技术 on Nohsueh&#39;s Blog</title>
+    <link>https://nohsueh.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 技术 on Nohsueh&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Dec 2023 16:00:12 +0800</lastBuildDate>
-    <atom:link href="https://nohsueh.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://nohsueh.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>谓词下推：数据库查询优化</title>
       <link>https://nohsueh.github.io/post/2023/12/27/%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/</link>

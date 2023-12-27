@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en-us">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>谓词下推：数据库查询优化 | NOhsueh&#39;s blog</title>
+    <title>谓词下推：数据库查询优化 | Nohsueh&#39;s Blog</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     
@@ -13,13 +13,23 @@
     <nav>
     <ul class="menu">
       
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
     </ul>
     <hr/>
     </nav>
 
 <div class="article-meta">
 <h1><span class="title">谓词下推：数据库查询优化</span></h1>
-<h2 class="author">李小狼</h2>
+
 <h2 class="date">2023/12/27</h2>
 </div>
 
@@ -76,15 +86,17 @@
 <blockquote>
 <p>当使用“索引条件下推”时，使用 <code>EXPLAINE</code> 命令将在 <code>Extra</code> 列显示 <code>Using index condition</code>，而不是显示 <code>Using index</code>。</p>
 <p>MySQL 默认启动了 <em>ICP</em>，但可以通过系统变量 <code>optimizer_switch</code> 控制：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">optimizer_switch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;index_condition_pushdown=off&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">optimizer_switch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;index_condition_pushdown=on&#39;</span><span class="p">;</span><span class="w">
-</span></span></span></code></pre></div></blockquote>
+<pre><code class="language-sql">SET optimizer_switch = 'index_condition_pushdown=off';
+SET optimizer_switch = 'index_condition_pushdown=on';
+</code></pre>
+</blockquote>
 <p>假设有一个表包含人员及其地址的信息，该表的索引为 <code>(zipcode, lastname, firstname)</code>。如果我们知道一个人 <code>zipcode</code> 的值，我们可以这样查询这个人的姓氏：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">zipcode</span><span class="o">=</span><span class="s1">&#39;95054&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">lastname</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%etrunia%&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%Main Street%&#39;</span><span class="p">;</span><span class="w">
-</span></span></span></code></pre></div><p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em>，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
+<pre><code class="language-sql">SELECT * FROM people
+  WHERE zipcode='95054'
+  AND lastname LIKE '%etrunia%'
+  AND address LIKE '%Main Street%';
+</code></pre>
+<p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em>，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
 <p>启用 <em>ICP</em> 后，MySQL 会在读全表前检查是否匹配 <code>lastname LIKE '%etrunia%'</code> 语句。这就避免了匹配条件 <code>zipcode='95054</code> 但不匹配条件 <code>lastname</code> 的回表查询。</p>
 <h3 id="2-非关系型数据库hadoopflink等待补充">2. 非关系型数据库、Hadoop、Flink等待补充</h3>
 <p>&hellip;</p>
@@ -114,11 +126,20 @@
 <p><a href="https://www.maoyingdong.com/mysql_icp/">MySQL索引下推（ICP）简单理解及例子</a>, maoyingdong.</p>
 </li>
 </ol>
+<hr>
+<blockquote>
+<p>作者：<a href="https://nohsueh.github.io">nohsueh</a><br>
+原文：<a href="/post/2023/12/27/%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" title="谓词下推：数据库查询优化" target="_blank">谓词下推：数据库查询优化</a>
+</p>
+</blockquote>
 
 </main>
 
   <footer>
   
+  
+  <hr/>
+  © <a href="https://nohsueh.github.io">nohsueh</a> 2020 &ndash; 2023 | <a href="https://github.com/nohsueh">Github</a>
   
   </footer>
   </body>
