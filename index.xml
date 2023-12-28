@@ -15,5 +15,12 @@
       <guid>https://nohsueh.github.io/post/2023/12/27/%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/</guid>
       <description>谓词下推（Predicate Pushdown, sometimes also referred to as Filter Pushdown）是数据库中常用的一种查询优化技术。它使谓词下推到数据源，在进行笛卡尔积前过滤数据，从而减少传输和处理的数据量。&#xA;谓词下推的支持非常广泛，包括关系型数据库、非关系型数据库以及Hadoop、Flink、Spark等大数据框架。&#xA;什么是谓词 在逻辑学中，谓词（predicate）是表示属性或关系的符号。根据 Gottlob Frege 的说法，谓词的含义是从对象域到真值“true”和“false”的函数。例如，对于集合 $A = \left\{1, 2, 3\right\}$，可以定义一个谓词 $P(x)$，如果 $x \in A$，则 $P(x) = true$，否则 $P(x) = false$。显然，$P(1) = P(2) = P(3) = true$，而 $P(4) = false$。&#xA;在数据库中，谓词就是返回布尔值即 true 或 false 的函数，或是隐式转换为 bool 的函数。SQL 中的谓词主要有 LKIE、BETWEEN、IS NULL、IS NOT NULL、IN 和 EXISTS，其结果为布尔值，即 true 或 false。&#xA;谓词的使用场景：在 SELECT 语句的 WHERE 子句或 HAVING 子句中，确定哪些行与特定查询相关。要注意的是，并非所有谓词都可以在 HAVING 子句中使用。&#xA;什么是谓词下推 谓词下推实际上是一个简单的概念：&#xA;如果在一端发起查询但在另一端进行大量数据过滤，可能会产生大量网络流量，这会导致传输速度慢且减少处理的数据量。&#xA;如果可以将查询的某些部分“下推”到数据存储的位置，从而过滤掉大部分数据，则可以大大减少网络流量。比如笛卡尔积前用查询条件过滤数据。</description>
     </item>
+    <item>
+      <title>李小狼 - 后端开发</title>
+      <link>https://nohsueh.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://nohsueh.github.io/about/</guid>
+      <description>正在学 Java😼&#xA;重庆大学 | 软件工程 | Top 15% | 本科 | 2020.09 ~ 2024.06&#xA;腾讯 | Go &amp;amp; PHP 后台开发实习 | 2023.06 ~ 2023.09</description>
+    </item>
   </channel>
 </rss>
