@@ -70,7 +70,7 @@
 <p><strong>索引条件下推</strong>（<em><strong>ICP</strong></em>）是 MySQL 使用索引减少回表查询的优化。</p>
 <h4 id="mysql-架构来自-mysql-参考手册httpsdevmysqlcomdocrefman80enpluggable-storage-overviewhtml">MySQL 架构（来自 <a href="https://dev.mysql.com/doc/refman/8.0/en/pluggable-storage-overview.html">MySQL 参考手册</a>）</h4>
 <p><img src="/img/mysql-architecture.png" alt="mysql-architecture"></p>
-<p>通常把MySQL从上至下分为以下几层：</p>
+<p>通常把 MySQL 从上至下分为以下几层：</p>
 <ul>
 <li>
 <p>MySQL server 层：包括 NoSQL 和 SQL 接口、查询解析器、优化器、缓存和 Buffer 等组件。</p>
@@ -82,7 +82,7 @@
 <p>文件系统层: 读写各种文件与日志。</p>
 </li>
 </ul>
-<p>如果没有 <em>ICP</em>，存储引擎将遍历索引以查找基表中的行，并将它们返回给 MySQL server，该 server 会评估行的 WHERE 条件。<strong>启用 <em>ICP</em> 后，如果要使用索引中的列来评估部分 WHERE 条件，MySQL server 会将这部分 WHERE 条件下推到存储引擎</strong>。然后，存储引擎使用索引检查推送的索引条件，并且仅当满足此条件时，才会从表中读取行。<em>ICP</em> 可以减少存储引擎回表查询次数，减少 MySQL server 访问存储引擎的次数。</p>
+<p>如果没有 <em>ICP</em>，存储引擎将遍历索引以查找基表中的行，并将它们返回给 MySQL server，该 server 会评估行的 <code>WHERE</code> 条件。<strong>启用 <em>ICP</em> 后，如果要使用索引中的列来评估部分 <code>WHERE</code> 条件，MySQL server 会将这部分 <code>WHERE</code> 条件下推到存储引擎</strong>。然后，存储引擎使用索引检查推送的索引条件，并且仅当满足此条件时，才会从表中读取行。<em>ICP</em> 可以减少存储引擎回表查询次数，减少 MySQL server 访问存储引擎的次数。</p>
 <blockquote>
 <p>当使用“索引条件下推”时，使用 <code>EXPLAINE</code> 命令将在 <code>Extra</code> 列显示 <code>Using index condition</code>，而不是显示 <code>Using index</code>。</p>
 <p>MySQL 默认启动了 <em>ICP</em>，但可以通过系统变量 <code>optimizer_switch</code> 控制：</p>
