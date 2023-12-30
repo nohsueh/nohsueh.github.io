@@ -40,8 +40,8 @@
 </blockquote>
 <h2 id="什么是谓词">什么是谓词</h2>
 <p><strong>在逻辑学中，谓词（<em>predicate</em>）是表示属性或关系的符号</strong>。根据 Gottlob Frege 的说法，谓词的含义是从对象域到真值“true”和“false”的函数。例如，对于集合 <code>$A = \left\{1, 2, 3\right\}$</code>，可以定义一个谓词 <code>$P(x)$</code>，如果 <code>$x \in A$</code>，则 <code>$P(x) = true$</code>，否则 <code>$P(x) = false$</code>。显然，<code>$P(1) = P(2) = P(3) = true$</code>，而 <code>$P(4) = false$</code>。</p>
-<p><strong>在数据库中，谓词就是返回布尔值即 true 或 false 的函数，或是隐式转换为 bool 的函数</strong>。SQL 中的谓词主要有 LKIE、BETWEEN、IS NULL、IS NOT NULL、IN 和 EXISTS，其结果为布尔值，即 true 或 false。</p>
-<p><strong>谓词的使用场景：在 SELECT 语句的 WHERE 子句或 HAVING 子句中，确定哪些行与特定查询相关</strong>。要注意的是，并非所有谓词都可以在 HAVING 子句中使用。</p>
+<p><strong>在数据库中，谓词就是返回布尔值即 <code>true</code> 或 <code>false</code> 的函数，或是隐式转换为 <code>bool</code> 的函数</strong>。SQL 中的谓词主要有 <code>LKIE</code>、<code>BETWEEN</code>、<code>IS NULL</code>、<code>IS NOT NULL</code>、<code>IN</code> 和 <code>EXISTS</code>，其结果为布尔值，即 <code>true</code> 或 <code>false</code>。</p>
+<p><strong>谓词的使用场景：在 <code>SELECT</code> 语句的 <code>WHERE</code> 子句或 <code>HAVING</code> 子句中，确定哪些行与特定查询相关</strong>。要注意的是，并非所有谓词都可以在 <code>HAVING</code> 子句中使用。</p>
 <h2 id="什么是谓词下推">什么是谓词下推</h2>
 <p>谓词下推实际上是一个简单的概念：</p>
 <ul>
@@ -86,17 +86,15 @@
 <blockquote>
 <p>当使用“索引条件下推”时，使用 <code>EXPLAINE</code> 命令将在 <code>Extra</code> 列显示 <code>Using index condition</code>，而不是显示 <code>Using index</code>。</p>
 <p>MySQL 默认启动了 <em>ICP</em>，但可以通过系统变量 <code>optimizer_switch</code> 控制：</p>
-<pre><code class="language-sql">SET optimizer_switch = 'index_condition_pushdown=off';
-SET optimizer_switch = 'index_condition_pushdown=on';
-</code></pre>
-</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> optimizer_switch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;index_condition_pushdown=off&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> optimizer_switch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;index_condition_pushdown=on&#39;</span>;
+</span></span></code></pre></div></blockquote>
 <p>假设有一个表包含人员及其地址的信息，该表的索引为 <code>(zipcode, lastname, firstname)</code>。如果我们知道一个人 <code>zipcode</code> 的值，我们可以这样查询这个人的姓氏：</p>
-<pre><code class="language-sql">SELECT * FROM people
-  WHERE zipcode='95054'
-  AND lastname LIKE '%etrunia%'
-  AND address LIKE '%Main Street%';
-</code></pre>
-<p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em>，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> people
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> zipcode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;95054&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> lastname <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%etrunia%&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> address <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%Main Street%&#39;</span>;
+</span></span></code></pre></div><p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em>，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
 <p>启用 <em>ICP</em> 后，MySQL 会在读全表前检查是否匹配 <code>lastname LIKE '%etrunia%'</code> 语句。这就避免了匹配条件 <code>zipcode='95054</code> 但不匹配条件 <code>lastname</code> 的回表查询。</p>
 <h3 id="2-非关系型数据库hadoopflink等待补充">2. 非关系型数据库、Hadoop、Flink等待补充</h3>
 <p>&hellip;</p>
