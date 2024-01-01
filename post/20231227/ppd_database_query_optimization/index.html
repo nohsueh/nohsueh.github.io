@@ -86,17 +86,15 @@
 <blockquote>
 <p>当使用“索引条件下推”时，使用 <code>EXPLAINE</code> 命令将在 <code>Extra</code> 列显示 <code>Using index condition</code>，而不是显示 <code>Using index</code>。</p>
 <p>MySQL 默认启动了 <em>ICP</em> ，但可以通过系统变量 <code>optimizer_switch</code> 控制：</p>
-<pre><code class="language-sql">SET optimizer_switch = 'index_condition_pushdown=off';
-SET optimizer_switch = 'index_condition_pushdown=on';
-</code></pre>
-</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> optimizer_switch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;index_condition_pushdown=off&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> optimizer_switch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;index_condition_pushdown=on&#39;</span>;
+</span></span></code></pre></div></blockquote>
 <p>假设有一个表包含人员及其地址的信息，该表的索引为 <code>(zipcode, lastname, firstname)</code>。如果我们知道一个人 <code>zipcode</code> 的值，我们可以这样查询这个人的姓氏：</p>
-<pre><code class="language-sql">SELECT * FROM people
-  WHERE zipcode='95054'
-  AND lastname LIKE '%etrunia%'
-  AND address LIKE '%Main Street%';
-</code></pre>
-<p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em> ，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> people
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> zipcode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;95054&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> lastname <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%etrunia%&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> address <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%Main Street%&#39;</span>;
+</span></span></code></pre></div><p>根据最左匹配原则，MySQL 会使用索引扫描符合 <code>zipcode='95054</code> 的人员。但 <code>lastname LIKE '%etrunia%'</code> 不能用来减少被扫描行数，所以如果没有 <em>ICP</em> ，这条查询必然回表查询所有 <code>zipcode='95054'</code> 的行。</p>
 <p>启用 <em>ICP</em> 后，MySQL 会在读全表前检查是否匹配 <code>lastname LIKE '%etrunia%'</code> 语句。这就避免了匹配条件 <code>zipcode='95054</code> 但不匹配条件 <code>lastname</code> 的回表查询。</p>
 <h3 id="2-非关系型数据库hadoopflink等待补充">2. 非关系型数据库、Hadoop、Flink等待补充</h3>
 <p>&hellip;</p>
@@ -117,10 +115,9 @@ SET optimizer_switch = 'index_condition_pushdown=on';
 <p><a href="https://www.maoyingdong.com/mysql_icp/">MySQL索引下推（ICP）简单理解及例子</a>, maoyingdong.</p>
 </li>
 </ol>
-<pre><code>文章链接：https://nohsueh.github.io/post/20231227/ppd_database_query_optimization/  
+<pre tabindex="0"><code>文章链接：https://nohsueh.github.io/post/20231227/ppd_database_query_optimization/  
 版权声明：本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明来自 nohsueh。
 </code></pre>
-
 </main>
 
   <footer>
