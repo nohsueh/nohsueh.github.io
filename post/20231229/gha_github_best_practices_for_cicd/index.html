@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GitHub Actions：在 GitHub 上实现 CI/CD 的最佳实践 | Nohsueh&#39;s Blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">GitHub Actions：在 GitHub 上实现 CI/CD 的最佳实践</span></h1>
+
+<h2 class="date">2023/12/29</h2>
+</div>
+
+<main>
+<blockquote>
+<p>GitHub Actions 是一种持续集成和持续交付 (CI/CD) 平台，可用于自动执行生成、测试和部署管道。 您可以创建工作流程来构建和测试存储库的每个拉取请求，或将合并的拉取请求部署到生产环境。</p>
+<p>GitHub Actions 不仅仅是 DevOps，还允许您在存储库中发生其他事件时运行工作流程。 例如，您可以运行工作流程，以便在有人在您的存储库中创建新问题时自动添加相应的标签。</p>
+<p>GitHub 提供 Linux、Windows 和 macOS 虚拟机来运行工作流程，或者您可以在自己的数据中心或云基础架构中托管自己的自托管运行器。</p>
+</blockquote>
+<h2 id="github-actions-的组件">GitHub Actions 的组件</h2>
+<p>可配置 GitHub Actions 工作流，使其在存储库中发生事件（例如打开拉取请求或创建问题）时触发 。 工作流包含一个或多个可按顺序或并行运行的作业。 每个作业都将在其自己的虚拟机运行器中或在容器中运行，并具有一个或多个步骤，用于运行定义的脚本或运行动作。动作是一个可重用的扩展，可简化工作流 。</p>
+<p>触发运行器 1（它触发运行器 2 以运行作业 2 ）以运行作业 1 的事件的示意图。 每个作业都分为多个步骤。</p>
+<p><img src="/img/overview-actions-simple.png" alt="overview-actions-simple"></p>
+<h2 id="工作流">工作流</h2>
+<p>工作流程是一个可配置的自动化过程，它将运行一个或多个作业。 工作流程由签入到存储库的 YAML 文件定义，并在存储库中的事件触发时运行，也可以手动触发，或按定义的时间表触发。</p>
+<p>工作流程在存储库的 .github/workflows 目录中定义，存储库可以有多个工作流程，每个工作流程都可以执行不同的任务集。 例如，您可以有一个工作流程来构建和测试拉取请求，另一个工作流程用于在每次创建发布时部署应用程序，还有一个工作流程在每次有人打开新议题时添加标签。</p>
+<p>可以在另一个工作流中引用工作流。 有关详细信息，请参阅“重新使用工作流”。</p>
+<p>有关工作流的详细信息，请参阅“使用工作流”。</p>
+<h2 id="事件">事件</h2>
+<p>事件是存储库中触发工作流程运行的特定活动。 例如，当有人创建拉取请求、打开议题或将提交推送到存储库时，活动可能源自 GitHub。 此外，还可以通过发布到 REST API 或者手动方式触发工作流按计划运行。</p>
+<p>有关可用于触发工作流的事件的完整列表，请参阅触发工作流的事件。</p>
+<h2 id="作业">作业</h2>
+<p>作业是工作流中在同一运行器上执行的一组步骤。 每个步骤要么是一个将要执行的 shell 脚本，要么是一个将要运行的动作。 步骤按顺序执行，并且相互依赖。 由于每个步骤都在同一运行器上执行，因此您可以将数据从一个步骤共享到另一个步骤。 例如，可以有一个生成应用程序的步骤，后跟一个测试已生成应用程序的步骤。</p>
+<p>您可以配置作业与其他作业的依赖关系；默认情况下，作业没有依赖关系，并且彼此并行运行。 当一个作业依赖于另一个作业时，它将等待从属作业完成，然后才能运行。 例如，对于没有依赖关系的不同体系结构，您可能有多个生成作业，以及一个依赖于这些作业的打包作业。 生成作业将并行运行，当它们全部成功完成后，打包作业将运行。</p>
+<p>有关作业的详细信息，请参阅“使用作业”。</p>
+<h2 id="操作">操作</h2>
+<p>操作是用于 GitHub Actions 平台的自定义应用程序，它执行复杂但经常重复的任务。 使用操作可帮助减少在工作流程文件中编写的重复代码量。 操作可以从 GitHub 拉取 git 存储库，为您的构建环境设置正确的工具链，或设置对云提供商的身份验证。</p>
+<p>您可以编写自己的操作，也可以在 GitHub Marketplace 中找到要在工作流程中使用的操作。</p>
+<p>有关详细信息，请参阅“创建操作”。</p>
+<h2 id="运行程序">运行程序</h2>
+<p>运行程序是触发工作流时运行工作流的服务器。 每个运行器一次可以运行一个作业。 GitHub 提供 Ubuntu Linux、Microsoft Windows 和 macOS 运行器来运行您的工作流程；每个工作流程运行都在新预配的全新虚拟机中执行。 GitHub 还提供 大型运行器（适用于大型配置）。 有关详细信息，请参阅“关于较大的运行器”。 如果需要其他操作系统或特定硬件配置，可托管自己的运行器。有关自托管运行器的详细信息，请参阅“托管您自己的运行器”。</p>
+<h2 id="创建示例工作流程">创建示例工作流程</h2>
+<p>GitHub Actions 使用 YAML 语法来定义工作流程。 每个工作流都作为单独的 YAML 文件存储在代码存储库中名为 .github/workflows 的目录中。</p>
+<p>您可以在仓库中创建示例工作流程，只要推送代码，该工作流程就会自动触发一系列命令。 在此工作流中，GitHub Actions 签出推送的代码，安装 bats 测试框架，并运行基本命令来输出 bats 版本：bats -v。</p>
+<ol>
+<li>
+<p>在存储库中，创建 .github/workflows/ 目录来存储工作流文件。</p>
+</li>
+<li>
+<p>在 .github/workflows/ 目录中，创建一个名为 learn-github-actions.yml 的新文件并添加以下代码。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">learn-github-actions</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ github.actor }} is learning GitHub Actions</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>: [<span style="color:#ae81ff">push]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">check-bats-version</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v4</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/setup-node@v3</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">node-version</span>: <span style="color:#e6db74">&#39;14&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">npm install -g bats</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">bats -v</span>
+</span></span></code></pre></div><ol start="3">
+<li>提交这些更改并将其推送到您的 GitHub 仓库。</li>
+</ol>
+<p>您的新 GitHub Actions 工作流程文件现在安装在您的仓库中，每次有人推送更改到仓库时都会自动运行。 若要查看关于工作流执行历史记录的详细信息，请参阅“查看工作流运行的活动”。</p>
+<h2 id="了解工作流程文件">了解工作流程文件</h2>
+<p>为帮助您了解如何使用 YAML 语法来创建工作流程文件，本节解释介绍示例的每一行：</p>
+<pre tabindex="0"><code># Optional - The name of the workflow as it will appear in the &#34;Actions&#34; tab of the GitHub repository. If this field is omitted, the name of the workflow file will be used instead.
+name: learn-github-actions
+# Optional - The name for workflow runs generated from the workflow, which will appear in the list of workflow runs on your repository&#39;s &#34;Actions&#34; tab. This example uses an expression with the `github` context to display the username of the actor that triggered the workflow run. For more information, see &#34;[AUTOTITLE](/actions/using-workflows/workflow-syntax-for-github-actions#run-name).&#34;
+run-name: ${{ github.actor }} is learning GitHub Actions
+
+# Specifies the trigger for this workflow. This example uses the `push` event, so a workflow run is triggered every time someone pushes a change to the repository or merges a pull request.  This is triggered by a push to every branch; for examples of syntax that runs only on pushes to specific branches, paths, or tags, see &#34;[AUTOTITLE](/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore).&#34;
+on: [push]
+
+# Groups together all the jobs that run in the `learn-github-actions` workflow.
+  jobs:
+
+# Defines a job named `check-bats-version`. The child keys will define properties of the job.
+  check-bats-version:
+
+# Configures the job to run on the latest version of an Ubuntu Linux runner. This means that the job will execute on a fresh virtual machine hosted by GitHub. For syntax examples using other runners, see &#34;[AUTOTITLE](/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)&#34;
+    runs-on: ubuntu-latest
+
+# Groups together all the steps that run in the `check-bats-version` job. Each item nested under this section is a separate action or shell script.
+    steps:
+
+# The `uses` keyword specifies that this step will run `v4` of the `actions/checkout` action. This is an action that checks out your repository onto the runner, allowing you to run scripts or other actions against your code (such as build and test tools). You should use the checkout action any time your workflow will use the repository&#39;s code.
+      - uses: actions/checkout@v4
+
+# This step uses the `actions/setup-node@v3` action to install the specified version of the Node.js. (This example uses version 14.) This puts both the `node` and `npm` commands in your `PATH`.
+      - uses: actions/setup-node@v3
+        with:
+          node-version: &#39;14&#39;
+
+# The `run` keyword tells the job to execute a command on the runner. In this case, you are using `npm` to install the `bats` software testing package.
+      - run: npm install -g bats
+
+# Finally, you&#39;ll run the `bats` command with a parameter that outputs the software version.
+      - run: bats -v
+</code></pre><h2 id="可视化工作流程文件">可视化工作流程文件</h2>
+<p>在此关系图中，您可以看到刚刚创建的工作流程文件，以及 GitHub Actions 组件在层次结构中的组织方式。 每个步骤执行单个操作或 shell 脚本。 步骤 1 和 2 运行操作，步骤 3 和 4 运行 shell 脚本。 若要为工作流查找更多预先创建的操作，请参阅“查找和自定义操作”。</p>
+<p>显示工作流的触发器、运行器和作业的示意图。 作业分为 4 个步骤。</p>
+<p><img src="/img/overview-actions-event.png" alt="overview-actions-event"></p>
+<h2 id="查看工作流运行的活动">查看工作流运行的活动</h2>
+<p>触发工作流时，将创建执行工作流的“工作流运行”。 工作流运行开始后，可以查看运行进度的可视化图表，并在 GitHub 上查看每个步骤的活动。</p>
+<ol>
+<li>
+<p>在 GitHub.com 上，导航到存储库的主页。</p>
+</li>
+<li>
+<p>在存储库名称下，单击 “操作”。</p>
+</li>
+</ol>
+<p><img src="/img/actions-tab-global-nav-update.png" alt="actions-tab-global-nav-update"></p>
+<ol start="3">
+<li>在左侧边栏中，单击您想要查看的工作流程。</li>
+</ol>
+<p><img src="/img/superlinter-workflow-sidebar.png" alt="superlinter-workflow-sidebar"></p>
+<ol start="4">
+<li>
+<p>在工作流运行列表中，单击运行的名称以查看工作流运行摘要。</p>
+</li>
+<li>
+<p>在左侧边栏或可视化图效果中，单击要查看的作业。</p>
+</li>
+<li>
+<p>要查看某个步骤的结果，请单击该步骤。</p>
+</li>
+</ol>
+<h2 id="后续步骤">后续步骤</h2>
+<p>GitHub Actions 可以帮助您自动执行应用程序开发过程的几乎每个方面。 准备好开始了吗？ 以下是一些帮助您对 GitHub Actions 执行后续操作的有用资源：</p>
+<ul>
+<li>有关创建 GitHub Actions 工作流的快速方法，请参阅“使用入门工作流程”。</li>
+<li>有关生成和测试代码的持续集成 (CI) 工作流，请参阅“自动构建和测试”。</li>
+<li>有关生成和发布包，请参阅“发布包”。</li>
+<li>有关部署项目，请参阅“部署”。</li>
+<li>有关 GitHub 上的自动化任务和流程，请参阅“管理议题和拉取请求”。</li>
+<li>有关演示 GitHub Actions 更复杂功能的示例，包括上述许多用例，请参阅“示例”。 你可</li>
+<li>以看到一些详细示例，这些示例说明如何在运行器上测试代码、访问 GitHub CLI 以及使用高级功能（如并发和测试矩阵）。</li>
+</ul>
+<pre tabindex="0"><code>文章链接：https://nohsueh.github.io/post/20231229/gha_github_best_practices_for_cicd/
+版权声明：本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明来自 nohsueh。
+</code></pre>
+</main>
+
+  <footer>
+  <script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+  
+  <hr/>
+  © <a href="https://nohsueh.github.io">nohsueh</a> 2020 &ndash; 2024 | <a href="https://github.com/nohsueh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+
