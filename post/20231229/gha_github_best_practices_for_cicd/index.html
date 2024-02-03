@@ -65,12 +65,8 @@
 <p>GitHub Actions 使用 YAML 语法来定义工作流程。 每个工作流都作为单独的 YAML 文件存储在代码存储库中名为 .github/workflows 的目录中。</p>
 <p>您可以在仓库中创建示例工作流程，只要推送代码，该工作流程就会自动触发一系列命令。 在此工作流中，GitHub Actions 签出推送的代码，安装 bats 测试框架，并运行基本命令来输出 bats 版本：bats -v。</p>
 <ol>
-<li>
-<p>在存储库中，创建 .github/workflows/ 目录来存储工作流文件。</p>
-</li>
-<li>
-<p>在 .github/workflows/ 目录中，创建一个名为 learn-github-actions.yml 的新文件并添加以下代码。</p>
-</li>
+<li>在存储库中，创建 .github/workflows/ 目录来存储工作流文件。</li>
+<li>在 .github/workflows/ 目录中，创建一个名为 learn-github-actions.yml 的新文件并添加以下代码。</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">learn-github-actions</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ github.actor }} is learning GitHub Actions</span>
@@ -131,12 +127,8 @@ on: [push]
 <h2 id="查看工作流运行的活动">查看工作流运行的活动</h2>
 <p>触发工作流时，将创建执行工作流的“工作流运行”。 工作流运行开始后，可以查看运行进度的可视化图表，并在 GitHub 上查看每个步骤的活动。</p>
 <ol>
-<li>
-<p>在 GitHub.com 上，导航到存储库的主页。</p>
-</li>
-<li>
-<p>在存储库名称下，单击 “操作”。</p>
-</li>
+<li>在 GitHub.com 上，导航到存储库的主页。</li>
+<li>在存储库名称下，单击 “操作”。</li>
 </ol>
 <p><img src="/img/actions-tab-global-nav-update.png" alt="actions-tab-global-nav-update"></p>
 <ol start="3">
@@ -144,15 +136,9 @@ on: [push]
 </ol>
 <p><img src="/img/superlinter-workflow-sidebar.png" alt="superlinter-workflow-sidebar"></p>
 <ol start="4">
-<li>
-<p>在工作流运行列表中，单击运行的名称以查看工作流运行摘要。</p>
-</li>
-<li>
-<p>在左侧边栏或可视化图效果中，单击要查看的作业。</p>
-</li>
-<li>
-<p>要查看某个步骤的结果，请单击该步骤。</p>
-</li>
+<li>在工作流运行列表中，单击运行的名称以查看工作流运行摘要。</li>
+<li>在左侧边栏或可视化图效果中，单击要查看的作业。</li>
+<li>要查看某个步骤的结果，请单击该步骤。</li>
 </ol>
 <h2 id="后续步骤">后续步骤</h2>
 <p>GitHub Actions 可以帮助您自动执行应用程序开发过程的几乎每个方面。 准备好开始了吗？ 以下是一些帮助您对 GitHub Actions 执行后续操作的有用资源：</p>
