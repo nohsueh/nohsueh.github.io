@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Nohsueh&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Dec 2023 14:32:59 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 05 Oct 2024 10:10:12 +0800</lastBuildDate>
     <atom:link href="https://nohsueh.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Curl常用命令</title>
+      <link>https://nohsueh.github.io/post/20241005/curl/</link>
+      <pubDate>Sat, 05 Oct 2024 10:10:12 +0800</pubDate>
+      <guid>https://nohsueh.github.io/post/20241005/curl/</guid>
+      <description>下载文件 curl -O http://example.com/file.zip 跟随重定向 curl -L http://example.com POST 请求 curl -d &amp;#34;key1=value1&amp;amp;key2=value2&amp;#34; -X POST http://example.com/api 文章链接：https://nohsueh.github.io/ 版权声明：本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明来自 nohsueh。 </description>
+    </item>
     <item>
       <title>JVM 规范：加载、链接和初始化</title>
       <link>https://nohsueh.github.io/post/20231229/jvm_specification_loading_linking_and_nitializing/</link>
